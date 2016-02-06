@@ -1,0 +1,16 @@
+{
+  "version": "1.0.0-*",
+  "description": "Hermes.Blogs Class Library",
+  "authors": [ "smeeh_000" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+  "frameworks": {
+    "dnx46": {
+    }
+  },
+  "dependencies": {
+    "Hermes": "1.0.0-*",
+    "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final"
+  }
+}

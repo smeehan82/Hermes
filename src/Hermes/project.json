@@ -1,0 +1,13 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Hermes Class Library",
+  "authors": [ "smeeh_000" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "dnx46": {
+    }
+  }
+}
