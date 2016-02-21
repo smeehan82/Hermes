@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using Hermes.Blogs;
 using Hermes.DataAccess;
 using Newtonsoft.Json.Serialization;
-using Hermes.Quotes;
+using Hermes.Content.Quotes;
 
 namespace Hermes.Web
 {

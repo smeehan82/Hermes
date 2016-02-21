@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Hermes.Quotes
+namespace Hermes.Content.Quotes
 {
     public class QuotesManager
     {

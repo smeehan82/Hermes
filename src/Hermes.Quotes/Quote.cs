@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hermes.Quotes
+namespace Hermes.Content.Quotes
 {
     public class Quote : IContent
     {
