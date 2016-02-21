@@ -7,5 +7,11 @@ namespace Hermes.DataAccess
 {
     public interface IDataContext
     {
+        IQueryable<TModel> Set<TModel>() where TModel : class;
+        void Create<TModel>(TModel model) where TModel : class;
+        Task SaveAsync();
+        void Delete<TModel>(TModel model) where TModel : class;
+        void Delete<TModel>(Guid id) where TModel : class, IContent;
+        void Update<TModel>(TModel model) where TModel : class;
     }
 }
