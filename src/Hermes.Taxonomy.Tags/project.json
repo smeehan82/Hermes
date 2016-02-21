@@ -1,0 +1,16 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Hermes.Taxonomy.Tags Class Library",
+  "authors": [ "smeeh_000" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "frameworks": {
+    "dnx46": {
+    }
+  },
+  "dependencies": {
+    "Hermes": "1.0.0-*"
+  }
+}
