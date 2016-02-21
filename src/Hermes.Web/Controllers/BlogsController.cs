@@ -25,10 +25,29 @@ namespace Hermes.Web.Controllers
 
         // GET: api/values
         [HttpGet]
+        [Route("list")]
         public async Task<IActionResult> Get()
         {
             var blogs = await _blogsManager.GetBlogsAsync();
             return new ObjectResult(blogs);
+        }
+
+        //GET
+        [HttpGet]
+        [Route("single")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var blog = await _blogsManager.FindBlogAsync(id);
+            return new ObjectResult(blog);
+        }
+
+        [HttpPost]
+        [Route("add")]
+        public async Task<IActionResult> Put(Blog blog)
+        {
+
+            await _blogsManager.AddBlogAsync(blog);
+            return new ObjectResult(true);
         }
     }
 }
