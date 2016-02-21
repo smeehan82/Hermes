@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Hermes.Blogs;
+using Hermes.DataAccess;
+using Newtonsoft.Json.Serialization;
 
 namespace Hermes.Web
 {
@@ -28,10 +30,19 @@ namespace Hermes.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            var dataContextBuilder = new DataContextBuilder();
 
-            services.AddScoped<BlogsManager, BlogsManager>();
-            services.AddScoped<BlogStore, BlogStore>();
+            //add supplimental content packages here
+            services.AddBlogs(dataContextBuilder);
+
+            services.AddInstance(dataContextBuilder);
+            services.AddHermesDataContext(Configuration.GetSection("DataAccess"));
+
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
