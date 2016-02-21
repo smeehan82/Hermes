@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Hermes.DataAccess;
+using Microsoft.Data.Entity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,39 +10,60 @@ namespace Hermes.Blogs
 {
     public class BlogStore
     {
-        private IEnumerable<Blog> _blogs;
+        #region Contructor
+
+        private IDataContext _context;
         private ILogger _logger;
 
-        public BlogStore(ILoggerFactory loggerFactory)
+        public BlogStore(IDataContext context, ILoggerFactory loggerFactory)
         {
-            _blogs = new List<Blog>()
-            {
-                new Blog()
-                {
-                    DateCreated = DateTimeOffset.UtcNow,
-                    DateModified = DateTimeOffset.UtcNow,
-                    DatePublished = DateTimeOffset.UtcNow,
-                    Slug = "Test-1",
-                    Title = "Test 1",
-                    Id = Guid.NewGuid()
-                },
-                new Blog()
-                {
-                    DateCreated = DateTimeOffset.UtcNow,
-                    DateModified = DateTimeOffset.UtcNow,
-                    DatePublished = DateTimeOffset.UtcNow,
-                    Slug = "Test-2",
-                    Title = "Test 2",
-                    Id = Guid.NewGuid()
-                }
-            };
-
+            _context = context;
             _logger = loggerFactory.CreateLogger<BlogStore>();
         }
 
-        public async Task<IEnumerable<Blog>> GetBlogsAsync()
+        #endregion
+
+        #region CRUD Operations
+
+        public async Task AddBlogAsync(Blog blog)
         {
-            return _blogs;
+            _context.Create(blog);
+            await _context.SaveAsync();
         }
+
+        public virtual IQueryable<Blog> Blogs
+        {
+            get { return _context.Set<Blog>(); }
+        }
+
+        public async Task<Blog> FindBlogAsync(Guid id)
+        {
+            return await Blogs.Where(b => b.Id == id).FirstOrDefaultAsync();
+        }
+
+        public async Task<Blog> FindBlogAsync(string slug)
+        {
+            return await Blogs.Where(b => b.Slug == slug).FirstOrDefaultAsync();
+        }
+
+        public async Task UpdateBlogAsync(Blog blog)
+        {
+            _context.Update(blog);
+            await _context.SaveAsync();
+        }
+
+        public async Task DeleteBlogAsync(Guid id)
+        {
+            _context.Delete<Blog>(id);
+            await _context.SaveAsync();
+        }
+
+        public async Task DeleteBlogAsync(Blog blog)
+        {
+            _context.Delete(blog);
+            await _context.SaveAsync();
+        }
+
+        #endregion
     }
 }
