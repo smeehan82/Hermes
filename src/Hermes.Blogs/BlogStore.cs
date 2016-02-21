@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hermes.Blogs
+namespace Hermes.Content.Blogs
 {
     public class BlogStore
     {

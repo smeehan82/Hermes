@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Hermes.DataAccess;
 
-namespace Hermes.Blogs
+namespace Hermes.Content.Blogs
 {
     public static class ServiceCollectionExtentions
     {
