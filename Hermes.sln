@@ -16,7 +16,7 @@ Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Hermes.DataAccess", "src\He
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Hermes.Web", "src\Hermes.Web\Hermes.Web.xproj", "{8B38B683-590A-41CC-B353-169727A020E0}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Hermes.Blogs", "src\Hermes.Blogs\Hermes.Blogs.xproj", "{91F539FB-D5D6-4CAC-9B8F-594A45E1EBA0}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Hermes.Content.Blogs", "src\Hermes.Blogs\Hermes.Content.Blogs.xproj", "{91F539FB-D5D6-4CAC-9B8F-594A45E1EBA0}"
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Hermes.Quotes", "src\Hermes.Quotes\Hermes.Quotes.xproj", "{7D9E425D-5861-4DC1-96AE-E65E9FB23B4F}"
 EndProject

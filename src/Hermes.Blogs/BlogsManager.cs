@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 
-namespace Hermes.Blogs
+namespace Hermes.Content.Blogs
 {
     public class BlogsManager
     {

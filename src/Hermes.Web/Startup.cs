@@ -7,7 +7,7 @@ using Microsoft.AspNet.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Hermes.Blogs;
+using Hermes.Content.Blogs;
 using Hermes.DataAccess;
 using Newtonsoft.Json.Serialization;
 using Hermes.Content.Quotes;
