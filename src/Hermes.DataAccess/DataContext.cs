@@ -57,6 +57,15 @@ namespace Hermes.DataAccess
 
         #endregion
 
+        #region Taxonomy specific CRUD Operations
+
+        public void DeleteTaxonomy<TModel>(Guid id) where TModel : class, ITaxonomy
+        {
+            base.Set<TModel>().Where(tm => tm.Id == id);
+        }
+
+        #endregion
+
         #region OnModelCreating
 
         protected override void OnModelCreating(ModelBuilder builder)

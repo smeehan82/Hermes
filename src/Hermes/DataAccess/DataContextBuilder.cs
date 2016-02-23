@@ -23,5 +23,20 @@ namespace Hermes.DataAccess
 
             RegisteredModelTypes.Add(contentType);
         }
+
+        public void RegisterTaxonomyModel<T>() where T : ITaxonomy
+        {
+            RegisterTaxonomyModel(typeof(T));
+        }
+
+        public void RegisterTaxonomyModel(Type contentType)
+        {
+            if (!typeof(ITaxonomy).IsAssignableFrom(contentType))
+            {
+                throw new ArgumentException("Parameter should implement IContent", nameof(contentType));
+            }
+
+            RegisteredModelTypes.Add(contentType);
+        }
     }
 }

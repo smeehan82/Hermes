@@ -12,6 +12,7 @@ namespace Hermes.DataAccess
         Task SaveAsync();
         void Delete<TModel>(TModel model) where TModel : class;
         void Delete<TModel>(Guid id) where TModel : class, IContent;
+        void DeleteTaxonomy<TModel>(Guid id) where TModel : class, ITaxonomy;
         void Update<TModel>(TModel model) where TModel : class;
     }
 }
