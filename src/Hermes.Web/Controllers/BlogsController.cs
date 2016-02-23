@@ -14,6 +14,8 @@ namespace Hermes.Web.Controllers
     [Route("api/blogs")]
     public class BlogsController : Controller
     {
+        #region Contructors
+
         private BlogsManager _blogsManager;
         private ILogger _logger;
 
@@ -22,6 +24,8 @@ namespace Hermes.Web.Controllers
             _blogsManager = blogsManager;
             _logger = loggerFactory.CreateLogger<BlogsController>();
         }
+
+        #endregion
 
         // GET: api/values
         [HttpGet]
