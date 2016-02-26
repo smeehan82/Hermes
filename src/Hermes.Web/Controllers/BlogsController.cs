@@ -45,10 +45,27 @@ namespace Hermes.Web.Controllers
             return new ObjectResult(blog);
         }
 
+        [HttpGet]
+        [Route("single")]
+        public async Task<IActionResult> Get(string slug)
+        {
+            var blog = await _blogsManager.FindBlogAsync(slug);
+            return new ObjectResult(blog);
+        }
+
+
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Put(Blog blog)
+        public async Task<IActionResult> Put(string title, string slug)
         {
+            var blog = new Blog();
+
+            blog.Id = new Guid();
+            blog.Title = title;
+            blog.Slug = slug;
+            blog.DateCreated = DateTimeOffset.Now;
+            blog.DateModified = DateTimeOffset.Now;
+            blog.DatePublished = DateTimeOffset.Now;
 
             await _blogsManager.AddBlogAsync(blog);
             return new ObjectResult(true);
