@@ -27,7 +27,7 @@ namespace Hermes.Content.Blogs
 
         public async Task AddBlogAsync(Blog blog)
         {
-            await _blogStore.AddBlogAsync(blog);
+            await _blogStore.AddAsync(blog);
         }
 
         public async Task<IEnumerable<Blog>> GetBlogsAsync()
@@ -38,29 +38,29 @@ namespace Hermes.Content.Blogs
 
         public async Task<Blog> FindBlogAsync(Guid id)
         {
-            var blog = await _blogStore.FindBlogAsync(id);
+            var blog = await _blogStore.FindByIdAsync(id);
             return blog;
         }
 
         public async Task<Blog> FindBlogAsync(string slug)
         {
-            var blog = await _blogStore.FindBlogAsync(slug);
+            var blog = await _blogStore.FindBySlugAsync(slug);
             return blog;
         }
 
         public async Task UpdateBlogAsync(Blog blog)
         {
-            await _blogStore.UpdateBlogAsync(blog); ;
+            await _blogStore.UpdateAsync(blog);
         }
 
         public async Task DeleteBlogAsync(Guid id)
         {
-            await _blogStore.DeleteBlogAsync(id);
+            await _blogStore.DeleteByIdAsync(id);
         }
 
         public async Task DeleteBlogAsync(Blog blog)
         {
-            await _blogStore.DeleteBlogAsync(blog);
+            await _blogStore.DeleteAsync(blog);
         }
 
         #endregion
@@ -69,40 +69,40 @@ namespace Hermes.Content.Blogs
 
         public async Task AddBlogPostAsync(BlogPost blogPost)
         {
-            await _blogPostStore.AddBlogPostAsync(blogPost);
+            await _blogPostStore.AddAsync(blogPost);
         }
 
         public async Task<IEnumerable<BlogPost>> GetBlogPostsAsync()
         {
-            var blogPosts = _blogPostStore.BlogPosts;
+            var blogPosts = _blogPostStore.Posts;
             return blogPosts;
         }
 
         public async Task<BlogPost> FindBlogPostAsync(Guid id)
         {
-            var blog = await _blogPostStore.FindBlogPostAsync(id);
+            var blog = await _blogPostStore.FindByIdAsync(id);
             return blog;
         }
 
         public async Task<BlogPost> FindBlogPostAsync(string slug)
         {
-            var blogPost = await _blogPostStore.FindBlogPostAsync(slug);
+            var blogPost = await _blogPostStore.FindBySlugAsync(slug);
             return blogPost;
         }
 
         public async Task UpdateBlogPostAsync(BlogPost blogPost)
         {
-            await _blogPostStore.UpdateBlogPostAsync(blogPost); ;
+            await _blogPostStore.UpdateAsync(blogPost); ;
         }
 
         public async Task DeleteBlogPostAsync(Guid id)
         {
-            await _blogPostStore.DeleteBlogPostAsync(id);
+            await _blogPostStore.DeleteByIdAsync(id);
         }
 
         public async Task DeleteBlogPostAsync(BlogPost blogPost)
         {
-            await _blogPostStore.DeleteBlogPostAsync(blogPost);
+            await _blogPostStore.DeleteAsync(blogPost);
         }
 
         #endregion

@@ -11,7 +11,8 @@ namespace Hermes.Content.Blogs
     {
         public static void AddBlogs(this IServiceCollection services, DataContextBuilder dataContextBuilder)
         {
-            services.AddScoped<BlogStore, BlogStore>();
+            services.AddScoped<IBlogStore, BlogStore>();
+            services.AddScoped<IBlogPostStore, BlogPostStore>();
             services.AddScoped<BlogsManager, BlogsManager>();
 
             dataContextBuilder.RegisterModel<Blog>();
