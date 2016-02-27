@@ -25,7 +25,7 @@ namespace Hermes.Content.Quotes
 
         public async Task AddQuoteAsync(Quote quote)
         {
-            await _quoteStore.AddQuoteAsync(quote);
+            await _quoteStore.AddAsync(quote);
         }
 
         public async Task<IEnumerable<Quote>> GetQuotesAsync()
@@ -36,29 +36,29 @@ namespace Hermes.Content.Quotes
 
         public async Task<Quote> FindQuoteAsync(Guid id)
         {
-            var quote = await _quoteStore.FindQuoteAsync(id);
+            var quote = await _quoteStore.FindByIdAsync(id);
             return quote;
         }
 
         public async Task<Quote> FindQuoteAsync(string slug)
         {
-            var quote = await _quoteStore.FindQuoteAsync(slug);
+            var quote = await _quoteStore.FindBySlugAsync(slug);
             return quote;
         }
 
         public async Task UpdateQuoteAsync(Quote quote)
         {
-            await _quoteStore.UpdateQuoteAsync(quote); ;
+            await _quoteStore.UpdateAsync(quote); ;
         }
 
         public async Task DeleteQuoteAsync(Guid id)
         {
-            await _quoteStore.DeleteQuoteAsync(id);
+            await _quoteStore.DeleteByIdAsync(id);
         }
 
         public async Task DeleteQuoteAsync(Quote quote)
         {
-            await _quoteStore.DeleteQuoteAsync(quote);
+            await _quoteStore.DeleteAsync(quote);
         }
 
         #endregion
