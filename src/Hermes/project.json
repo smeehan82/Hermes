@@ -1,13 +1,16 @@
-﻿{
+{
   "version": "1.0.0-*",
   "description": "Hermes Class Library",
   "authors": [ "smeeh_000" ],
   "tags": [ "" ],
   "projectUrl": "",
   "licenseUrl": "",
-
   "frameworks": {
     "dnx46": {
     }
+  },
+  "dependencies": {
+    "EntityFramework.Core": "7.0.0-rc1-final",
+    "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final"
   }
 }
