@@ -25,7 +25,7 @@ namespace Hermes.DataAccess
 
         #region CRUD Operations
 
-        public void Create<TModel>(TModel model) where TModel : class
+        public void Add<TModel>(TModel model) where TModel : class
         {
             base.Add(model);
         }
