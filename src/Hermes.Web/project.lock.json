@@ -89,7 +89,8 @@
         "framework": "DNX,Version=v4.6",
         "dependencies": {
           "EntityFramework.Core": "7.0.0-rc1-final",
-          "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final"
+          "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+          "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final"
         }
       },
       "Hermes.Content.Blogs/1.0.0": {
@@ -1867,7 +1868,8 @@
         "framework": "DNX,Version=v4.6",
         "dependencies": {
           "EntityFramework.Core": "7.0.0-rc1-final",
-          "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final"
+          "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+          "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final"
         }
       },
       "Hermes.Content.Blogs/1.0.0": {
@@ -3648,7 +3650,8 @@
         "framework": "DNX,Version=v4.6",
         "dependencies": {
           "EntityFramework.Core": "7.0.0-rc1-final",
-          "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final"
+          "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
+          "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-final"
         }
       },
       "Hermes.Content.Blogs/1.0.0": {
