@@ -25,6 +25,15 @@ namespace Hermes
             };
         }
 
+        public virtual HermesError TitleNotSet()
+        {
+            return new HermesError
+            {
+                Code = nameof(TitleNotSet),
+                Description = "The title is not set."
+            };
+        }
+
         //Titles Not present
 
     }
