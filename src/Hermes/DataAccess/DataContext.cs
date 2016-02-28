@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.Data.Entity;
 using Microsoft.Extensions.Logging;
 using Hermes.DataAnnotations;
+using System.Threading;
 
 namespace Hermes.DataAccess
 {
@@ -50,9 +51,9 @@ namespace Hermes.DataAccess
             base.Remove(model);
         }
 
-        public async Task SaveAsync()
+        public async Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
-            await base.SaveChangesAsync();
+            await base.SaveChangesAsync(cancellationToken);
         }
 
         #endregion
@@ -86,6 +87,13 @@ namespace Hermes.DataAccess
                     {
                         builder.Entity(registeredModelType)
                             .HasKey(property.Name);
+                    }
+
+                    if(property.Name == "ConcurrencyStamp")
+                    {
+                        builder.Entity(registeredModelType)
+                            .Property(property.GetType(), property.Name)
+                            .IsConcurrencyToken();
                     }
                 }
             }

@@ -3,6 +3,7 @@ using Microsoft.Data.Entity.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Hermes.DataAccess
@@ -11,7 +12,7 @@ namespace Hermes.DataAccess
     {
         IQueryable<TModel> Set<TModel>() where TModel : class;
         void Add<TModel>(TModel model) where TModel : class;
-        Task SaveAsync();
+        Task SaveAsync(CancellationToken cancellationToken = default(CancellationToken));
         void Delete<TModel>(TModel model) where TModel : class;
         void Delete<TModel>(Guid id) where TModel : class, IContent;
         void DeleteTaxonomy<TModel>(Guid id) where TModel : class, ITaxonomy;
