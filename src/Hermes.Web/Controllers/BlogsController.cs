@@ -27,7 +27,7 @@ namespace Hermes.Web.Controllers
 
         #endregion
 
-        // GET: api/values
+        //GET
         #region list
 
         [HttpGet]
