@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.Content.Quotes
 {
-    interface IQuoteStore : IContentStore<Quote, Guid>
+    public interface IQuoteStore : IContentStore<Quote, Guid>
     {
         IQueryable<Quote> Quotes { get; }
     }
