@@ -20,14 +20,19 @@ namespace Hermes.DataAccess
         }
     }
 
+    #region Class Definition with the key specified as a Guid
+
     public abstract class ContentStore<TContent> : ContentStore<TContent, Guid>
-        where TContent : class, IContent<Guid>
+    where TContent : class, IContent<Guid>
     {
         public ContentStore(IDataContext context) : base(context) { }
 
-        public override Task<Guid> GenerateKeyAsync()
+        public override Task<Guid> GenerateKeyAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(Guid.NewGuid());
         }
     }
+
+    #endregion
 }
