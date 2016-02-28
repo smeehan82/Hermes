@@ -10,13 +10,14 @@ namespace Hermes.DataAccess
         where TItem : class, IPersistentItem<TKey> 
         where TKey: IEquatable<TKey>
     {
-        Task AddAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HermesResult> AddAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken));
         IQueryable<TItem> Items { get; }
         Task<TItem> FindByIdAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken));
-        Task UpdateAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken));
-        Task DeleteAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken));
-        Task DeleteByIdAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HermesResult> UpdateAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HermesResult> DeleteAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken));
+        Task<HermesResult> DeleteByIdAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken));
 
-        Task<TKey> GenerateKeyAsync();
+        Task<TKey> GenerateKeyAsync(CancellationToken cancellationToken = default(CancellationToken));
+        Task<string> GenerateConcurrencyStampAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

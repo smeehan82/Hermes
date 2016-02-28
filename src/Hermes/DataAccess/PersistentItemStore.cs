@@ -17,6 +17,7 @@ namespace Hermes.DataAccess
 
         private IDataContext _context;
         protected ILogger _logger;
+        public HermesErrorDescriber ErrorDescriber { get; } = new HermesErrorDescriber();
 
         public PersistentItemStore(IDataContext context)
         {
@@ -25,8 +26,9 @@ namespace Hermes.DataAccess
 
         #endregion
 
+        #region Create Operation
 
-        public async Task AddAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HermesResult> AddAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -35,11 +37,18 @@ namespace Hermes.DataAccess
                 throw new ArgumentNullException(nameof(item));
             }
 
-            item.Id = await GenerateKeyAsync();
+            item.Id = await GenerateKeyAsync(cancellationToken);
+            item.ConcurrencyStamp = await GenerateConcurrencyStampAsync(cancellationToken);
 
             _context.Add(item);
-            await _context.SaveAsync();
+
+            await _context.SaveAsync(cancellationToken);
+            return HermesResult.Success;
         }
+
+        #endregion
+
+        #region Read Operations
 
         public IQueryable<TItem> Items
         {
@@ -49,10 +58,14 @@ namespace Hermes.DataAccess
         public async Task<TItem> FindByIdAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            return await Items.FirstOrDefaultAsync(i => i.Id.Equals(id));
+            return await Items.FirstOrDefaultAsync(i => i.Id.Equals(id), cancellationToken);
         }
 
-        public async Task UpdateAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken))
+        #endregion
+
+        #region Update Operation
+
+        public async Task<HermesResult> UpdateAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -62,11 +75,26 @@ namespace Hermes.DataAccess
             }
 
             _context.Attach(item);
+            item.ConcurrencyStamp = await GenerateConcurrencyStampAsync(cancellationToken);
             _context.Update(item);
-            await _context.SaveAsync();
+
+            try
+            {
+                await _context.SaveAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return HermesResult.Failed(ErrorDescriber.ConcurrencyFailure());
+            }
+
+            return HermesResult.Success;
         }
 
-        public async Task DeleteAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken))
+        #endregion
+
+        #region Delete Operations
+
+        public async Task<HermesResult> DeleteAsync(TItem item, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
 
@@ -75,31 +103,56 @@ namespace Hermes.DataAccess
                 throw new ArgumentNullException(nameof(item));
             }
 
-            _context.Attach(item);
             _context.Delete(item);
-            await _context.SaveAsync();
+
+            try
+            {
+                await _context.SaveAsync(cancellationToken);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return HermesResult.Failed(ErrorDescriber.ConcurrencyFailure());
+            }
+
+            return HermesResult.Success;
         }
 
-        public async Task DeleteByIdAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken))
+        public async Task<HermesResult> DeleteByIdAsync(TKey id, CancellationToken cancellationToken = default(CancellationToken))
         {
             cancellationToken.ThrowIfCancellationRequested();
-            var itemToDelete = await FindByIdAsync(id);
-            await DeleteAsync(itemToDelete, cancellationToken);
+            var itemToDelete = await FindByIdAsync(id, cancellationToken);
+            return await DeleteAsync(itemToDelete, cancellationToken);
         }
 
-        public abstract Task<TKey> GenerateKeyAsync();
+        #endregion
+
+
+        //**********Helper Methods**********//
+        //**********************************//
+        //**********************************//
+        public abstract Task<TKey> GenerateKeyAsync(CancellationToken cancellationToken = default(CancellationToken));
+
+        public virtual Task<string> GenerateConcurrencyStampAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            return Task.FromResult(Guid.NewGuid().ToString());
+        }
     }
 
 
+    #region Class Definition with the key specified as a Guid
 
     public abstract class PersistentItemStore<TItem> : PersistentItemStore<TItem, Guid>
-        where TItem : class, IPersistentItem<Guid>
+    where TItem : class, IPersistentItem<Guid>
     {
         public PersistentItemStore(IDataContext context) : base(context) { }
 
-        public override Task<Guid> GenerateKeyAsync()
+        public override Task<Guid> GenerateKeyAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
+            cancellationToken.ThrowIfCancellationRequested();
             return Task.FromResult(Guid.NewGuid());
         }
     }
+
+    #endregion
 }
