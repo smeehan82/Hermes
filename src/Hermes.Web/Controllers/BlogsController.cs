@@ -32,7 +32,7 @@ namespace Hermes.Web.Controllers
         [Route("list")]
         public async Task<IActionResult> Get()
         {
-            var blogs = await _blogsManager.GetBlogsAsync();
+            var blogs = _blogsManager.Blogs;
             return new ObjectResult(blogs);
         }
 
@@ -41,7 +41,7 @@ namespace Hermes.Web.Controllers
         [Route("single")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var blog = await _blogsManager.FindBlogAsync(id);
+            var blog = await _blogsManager.FindByIdAsync(id);
             return new ObjectResult(blog);
         }
 
@@ -49,7 +49,7 @@ namespace Hermes.Web.Controllers
         [Route("single")]
         public async Task<IActionResult> Get(string slug)
         {
-            var blog = await _blogsManager.FindBlogAsync(slug);
+            var blog = await _blogsManager.FindBySlugAsync(slug);
             return new ObjectResult(blog);
         }
 
@@ -67,7 +67,7 @@ namespace Hermes.Web.Controllers
             blog.DateModified = DateTimeOffset.Now;
             blog.DatePublished = DateTimeOffset.Now;
 
-            await _blogsManager.AddBlogAsync(blog);
+            await _blogsManager.AddAsync(blog);
             return new ObjectResult(true);
         }
     }
