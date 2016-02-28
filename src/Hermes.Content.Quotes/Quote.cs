@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hermes.Taxonomy.Categories
+namespace Hermes.Content.Quotes
 {
-    public class Category : ITaxonomy
+    public class Quote : IContent
     {
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset DateModified { get; set; }
@@ -17,10 +17,9 @@ namespace Hermes.Taxonomy.Categories
         public string ConcurrencyStamp { get; set; }
         public string Slug { get; set; }
         public string Title { get; set; }
-
-        public Category Parent { get; set; }
-        public Guid ParentId { get; set; }
-
-        public ICollection<Category> Children { get; set; }
+        public string Content { get; set; }
+        public IEnumerable<string> Sources { get; set; }
+        public IEnumerable<string> Speakers { get; set; }
+        //Guid IPersistentItem<Guid>.Id { get; set; }
     }
 }

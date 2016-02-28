@@ -6,14 +6,13 @@ using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using Hermes.Content.Blogs;
 
-
-// For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace Hermes.Web.Controllers
 {
     [Route("api/blogs")]
     public class BlogsController : Controller
     {
+        #region Contructor
+
         private BlogsManager _blogsManager;
         private ILogger _logger;
 
@@ -23,31 +22,67 @@ namespace Hermes.Web.Controllers
             _logger = loggerFactory.CreateLogger<BlogsController>();
         }
 
-        // GET: api/values
+        #endregion
+
+        //GET
+        #region list
+
         [HttpGet]
         [Route("list")]
         public async Task<IActionResult> Get()
         {
-            var blogs = await _blogsManager.GetBlogsAsync();
+            var blogs = _blogsManager.Blogs;
             return new ObjectResult(blogs);
         }
 
+        #endregion
+
         //GET
+        #region single by id
+
         [HttpGet]
         [Route("single")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var blog = await _blogsManager.FindBlogAsync(id);
+            var blog = await _blogsManager.FindByIdAsync(id);
             return new ObjectResult(blog);
         }
 
+        #endregion
+
+        //GET
+        #region single by slug
+
+        [HttpGet]
+        [Route("single")]
+        public async Task<IActionResult> Get(string slug)
+        {
+            var blog = await _blogsManager.FindBySlugAsync(slug);
+            return new ObjectResult(blog);
+        }
+
+        #endregion
+
+        //POST
+        #region add
+        
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Put(Blog blog)
+        public async Task<IActionResult> Put(string title, string slug)
         {
+            var blog = new Blog();
 
-            await _blogsManager.AddBlogAsync(blog);
+            blog.Id = new Guid();
+            blog.Title = title;
+            blog.Slug = slug;
+            blog.DateCreated = DateTimeOffset.Now;
+            blog.DateModified = DateTimeOffset.Now;
+            blog.DatePublished = DateTimeOffset.Now;
+
+            await _blogsManager.AddAsync(blog);
             return new ObjectResult(true);
         }
+
+        #endregion
     }
 }

@@ -8,6 +8,7 @@ namespace Hermes.DataAccess
     public interface IPersistentItem<TKey> where TKey: IEquatable<TKey>
     {
         TKey Id { get; set; }
+        string ConcurrencyStamp { get; set; }
     }
 
     public interface IPersistentItem : IPersistentItem<Guid> {}
