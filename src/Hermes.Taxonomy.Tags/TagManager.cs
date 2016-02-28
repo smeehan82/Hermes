@@ -25,7 +25,7 @@ namespace Hermes.Taxonomy.Tags
 
         public async Task AddTagAsync(Tag tag)
         {
-            await _tagStore.AddTagAsync(tag);
+            await _tagStore.AddAsync(tag);
         }
 
         public async Task<IEnumerable<Tag>> GetTagsAsync()
@@ -36,29 +36,29 @@ namespace Hermes.Taxonomy.Tags
 
         public async Task<Tag> FindTagAsync(Guid id)
         {
-            var tag = await _tagStore.FindTagAsync(id);
+            var tag = await _tagStore.FindByIdAsync(id);
             return tag;
         }
 
         public async Task<Tag> FindTagAsync(string slug)
         {
-            var tag = await _tagStore.FindTagAsync(slug);
+            var tag = await _tagStore.FindBySlugAsync(slug);
             return tag;
         }
 
         public async Task UpdateTagAsync(Tag tag)
         {
-            await _tagStore.UpdateTagAsync(tag); ;
+            await _tagStore.UpdateAsync(tag); ;
         }
 
         public async Task DeleteTagAsync(Guid id)
         {
-            await _tagStore.DeleteTagAsync(id);
+            await _tagStore.DeleteByIdAsync(id);
         }
 
         public async Task DeleteTagAsync(Tag tag)
         {
-            await _tagStore.DeleteTagAsync(tag);
+            await _tagStore.DeleteAsync(tag);
         }
 
         #endregion

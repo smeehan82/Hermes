@@ -25,40 +25,40 @@ namespace Hermes.Taxonomy.Categories
 
         public async Task AddCategoryAsync(Category category)
         {
-            await _categoryStore.AddCategoryAsync(category);
+            await _categoryStore.AddAsync(category);
         }
 
         public async Task<IEnumerable<Category>> GetCategoryAsync()
         {
-            var categorys = _categoryStore.Categorys;
+            var categorys = _categoryStore.Categories;
             return categorys;
         }
 
         public async Task<Category> FindCategoryAsync(Guid id)
         {
-            var category = await _categoryStore.FindCategoryAsync(id);
+            var category = await _categoryStore.FindByIdAsync(id);
             return category;
         }
 
         public async Task<Category> FindCategoryAsync(string slug)
         {
-            var category = await _categoryStore.FindCategoryAsync(slug);
+            var category = await _categoryStore.FindBySlugAsync(slug);
             return category;
         }
 
         public async Task UpdateCategoryAsync(Category category)
         {
-            await _categoryStore.UpdateCategoryAsync(category); ;
+            await _categoryStore.UpdateAsync(category); ;
         }
 
         public async Task DeleteCategoryAsync(Guid id)
         {
-            await _categoryStore.DeleteCategoryAsync(id);
+            await _categoryStore.DeleteByIdAsync(id);
         }
 
         public async Task DeleteCategoryAsync(Category category)
         {
-            await _categoryStore.DeleteCategoryAsync(category);
+            await _categoryStore.DeleteAsync(category);
         }
 
         #endregion
