@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.Taxonomy.Tags
 {
-    interface ITagStore : ITaxonomyStore<Tag, Guid>
+    public interface ITagStore : ITaxonomyStore<Tag, Guid>
     {
         IQueryable<Tag> Tags { get; }
     }
