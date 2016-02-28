@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.Taxonomy.Categories
 {
-    interface ICategoryStore : ITaxonomyStore<Category, Guid>
+    public interface ICategoryStore : ITaxonomyStore<Category, Guid>
     {
         IQueryable<Category> Categories { get; }
     }
