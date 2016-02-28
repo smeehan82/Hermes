@@ -14,7 +14,7 @@ namespace Hermes.Web.Controllers
     [Route("api/blogs")]
     public class BlogsController : Controller
     {
-        #region Contructors
+        #region Contructor
 
         private BlogsManager _blogsManager;
         private ILogger _logger;
@@ -28,6 +28,8 @@ namespace Hermes.Web.Controllers
         #endregion
 
         // GET: api/values
+        #region list
+
         [HttpGet]
         [Route("list")]
         public async Task<IActionResult> Get()
@@ -36,7 +38,11 @@ namespace Hermes.Web.Controllers
             return new ObjectResult(blogs);
         }
 
+        #endregion
+
         //GET
+        #region single by id
+
         [HttpGet]
         [Route("single")]
         public async Task<IActionResult> Get(Guid id)
@@ -44,6 +50,11 @@ namespace Hermes.Web.Controllers
             var blog = await _blogsManager.FindByIdAsync(id);
             return new ObjectResult(blog);
         }
+
+        #endregion
+
+        //GET
+        #region single by id
 
         [HttpGet]
         [Route("single")]
@@ -53,7 +64,11 @@ namespace Hermes.Web.Controllers
             return new ObjectResult(blog);
         }
 
+        #endregion
 
+        //POST
+        #region add
+        
         [HttpPost]
         [Route("add")]
         public async Task<IActionResult> Put(string title, string slug)
@@ -70,5 +85,7 @@ namespace Hermes.Web.Controllers
             await _blogsManager.AddAsync(blog);
             return new ObjectResult(true);
         }
+
+        #endregion
     }
 }
