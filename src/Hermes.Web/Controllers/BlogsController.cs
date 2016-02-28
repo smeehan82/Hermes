@@ -51,7 +51,7 @@ namespace Hermes.Web.Controllers
         #endregion
 
         //GET
-        #region single by id
+        #region single by slug
 
         [HttpGet]
         [Route("single")]
