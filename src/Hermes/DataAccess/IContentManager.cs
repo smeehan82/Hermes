@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.DataAccess
 {
-    interface IContentManager<TContent, TKey> : IPersistentItemManager<TContent, TKey>
+    public interface IContentManager<TContent, TKey> : IPersistentItemManager<TContent, TKey>
         where TContent : class, IContent<TKey>
         where TKey : IEquatable<TKey>
     {

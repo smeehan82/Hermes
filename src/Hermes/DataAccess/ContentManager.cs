@@ -13,7 +13,37 @@ namespace Hermes.DataAccess
         where TContent : class, IContent<TKey>
         where TKey : IEquatable<TKey>
     {
+        public HermesErrorDescriber ErrorDescriber { get; } = new HermesErrorDescriber();
+
         public ContentManager(IContentStore<TContent, TKey> store, IHttpContextAccessor contextAccessor) : base(store, contextAccessor) { }
+
+        #region Overridden Methods
+
+        public override async Task<HermesResult> AddAsync(TContent item)
+        {
+            var result = DoesTitleExist(item.Title);
+
+            if (result.Succeeded)
+            {
+                return await base.AddAsync(item);
+            }
+
+            return result;
+        }
+
+        public override async Task<HermesResult> UpdateAsync(TContent item)
+        {
+            var result = DoesTitleExist(item.Title);
+
+            if (result.Succeeded)
+            {
+                return await base.UpdateAsync(item);
+            }
+
+            return result;
+        }
+
+        #endregion
 
         public async Task<TContent> FindBySlugAsync(string slug)
         {
@@ -24,6 +54,8 @@ namespace Hermes.DataAccess
         //**********Helper Methods**********//
         //**********************************//
         //**********************************//
+        #region GenerateNewSlug
+
         public virtual Task<string> GenerateNewSlug(string source)
         {
             //@TODO make it international friendly and cleanup the regex and remove small words
@@ -31,9 +63,30 @@ namespace Hermes.DataAccess
             return Task.FromResult(Regex.Replace(slug.Normalize().ToLowerInvariant(), @"[^\d\w]", "-"));
         }
 
+        #endregion
+
+        #region NormalizeSlug
+
         public virtual Task<string> NormalizeSlug(string source)
         {
             return Task.FromResult(source.Normalize().ToLowerInvariant());
         }
+
+        #endregion
+
+        #region DoesTitleExist
+
+        protected HermesResult DoesTitleExist(string title)
+        {
+            if (string.IsNullOrEmpty(title) || string.IsNullOrWhiteSpace(title))
+            {
+                return HermesResult.Failed(ErrorDescriber.TitleNotSet());
+            }
+
+            return HermesResult.Success;
+        }
+
+        #endregion
+
     }
 }
