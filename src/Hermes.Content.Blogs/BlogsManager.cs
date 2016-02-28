@@ -3,106 +3,78 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Hermes.DataAccess;
+using Microsoft.AspNet.Http;
+using Microsoft.Data.Entity;
 
 namespace Hermes.Content.Blogs
 {
-    public class BlogsManager
+    public class BlogsManager : ContentManager<Blog, Guid>, IBlogsManager
     {
         #region Constructor
 
-        private BlogStore _blogStore;
-        private BlogPostStore _blogPostStore;
+        private IBlogStore _blogStore;
+        private IBlogPostStore _blogPostsStore;
         private ILogger _logger;
 
-        public BlogsManager(BlogStore blogStore, BlogPostStore blogPostStore, ILoggerFactory loggerFactory)
+        public BlogsManager(IBlogStore store, IHttpContextAccessor contextAccessor, ILoggerFactory loggerFactory, IBlogPostStore blogPostsStore)
+            : base(store, contextAccessor)
         {
-            _blogStore = blogStore;
-            _blogPostStore = blogPostStore;
+            _blogPostsStore = blogPostsStore;
             _logger = loggerFactory.CreateLogger<BlogsManager>();
         }
 
         #endregion
 
-        #region Blog CRUD Operations
-
-        public async Task AddBlogAsync(Blog blog)
-        {
-            await _blogStore.AddAsync(blog);
-        }
-
-        public async Task<IEnumerable<Blog>> GetBlogsAsync()
-        {
-            var blogs = _blogStore.Blogs;
-            return blogs;
-        }
-
-        public async Task<Blog> FindBlogAsync(Guid id)
-        {
-            var blog = await _blogStore.FindByIdAsync(id);
-            return blog;
-        }
-
-        public async Task<Blog> FindBlogAsync(string slug)
-        {
-            var blog = await _blogStore.FindBySlugAsync(slug);
-            return blog;
-        }
-
-        public async Task UpdateBlogAsync(Blog blog)
-        {
-            await _blogStore.UpdateAsync(blog);
-        }
-
-        public async Task DeleteBlogAsync(Guid id)
-        {
-            await _blogStore.DeleteByIdAsync(id);
-        }
-
-        public async Task DeleteBlogAsync(Blog blog)
-        {
-            await _blogStore.DeleteAsync(blog);
-        }
-
-        #endregion
+        public IQueryable<Blog> Blogs { get { return _store.Items; } }
+        public IQueryable<BlogPost> BlogPosts { get { return _blogPostsStore.Items; } }
 
         #region BlogPost CRUD Operations
 
-        public async Task AddBlogPostAsync(BlogPost blogPost)
+        public virtual async Task<HermesResult> AddPostAsync(BlogPost blogPost, Blog blog)
         {
-            await _blogPostStore.AddAsync(blogPost);
+            var result = DoesTitleExist(blogPost.Title);
+            if (result.Succeeded)
+            {
+                blogPost.Blog = blog;
+                blogPost.BlogId = blog.Id;
+                return await _blogPostsStore.AddAsync(blogPost, CancellationToken);
+            }
+
+            return result;
         }
 
-        public async Task<IEnumerable<BlogPost>> GetBlogPostsAsync()
+        public async Task<BlogPost> FindPostByIdAsync(Guid id)
         {
-            var blogPosts = _blogPostStore.Posts;
-            return blogPosts;
-        }
-
-        public async Task<BlogPost> FindBlogPostAsync(Guid id)
-        {
-            var blog = await _blogPostStore.FindByIdAsync(id);
-            return blog;
-        }
-
-        public async Task<BlogPost> FindBlogPostAsync(string slug)
-        {
-            var blogPost = await _blogPostStore.FindBySlugAsync(slug);
+            var blogPost = await _blogPostsStore.FindByIdAsync(id, CancellationToken);
             return blogPost;
         }
 
-        public async Task UpdateBlogPostAsync(BlogPost blogPost)
+        public async Task<BlogPost> FindPostBySlugAsync(string slug)
         {
-            await _blogPostStore.UpdateAsync(blogPost); ;
+            return await _blogPostsStore.Items.FirstOrDefaultAsync(c => c.Slug.Equals(slug), CancellationToken);
         }
 
-        public async Task DeleteBlogPostAsync(Guid id)
+        public virtual async Task<HermesResult> UpdatePostAsync(BlogPost blogPost)
         {
-            await _blogPostStore.DeleteByIdAsync(id);
+            var result = DoesTitleExist(blogPost.Title);
+            if (result.Succeeded)
+            {
+                return await _blogPostsStore.UpdateAsync(blogPost, CancellationToken);
+            }
+
+            return result;
         }
 
-        public async Task DeleteBlogPostAsync(BlogPost blogPost)
+        public virtual async Task<HermesResult> DeletePostAsync(BlogPost blogPost)
         {
-            await _blogPostStore.DeleteAsync(blogPost);
+            return await _blogPostsStore.DeleteAsync(blogPost, CancellationToken);
+        }
+
+        public virtual async Task<HermesResult> DeletePostByIdAsync(Guid id)
+        {
+            var blogPost = await FindPostByIdAsync(id);
+            return await _blogPostsStore.DeleteAsync(blogPost, CancellationToken);
         }
 
         #endregion
