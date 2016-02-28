@@ -29,7 +29,7 @@ namespace Hermes.DataAccess
 
         #region CRUD Operations
 
-        public async Task<HermesResult> AddAsync(TItem item)
+        public virtual async Task<HermesResult> AddAsync(TItem item)
         {
             return await _store.AddAsync(item, CancellationToken);
         }
@@ -42,17 +42,17 @@ namespace Hermes.DataAccess
             return item;
         }
 
-        public async Task<HermesResult> UpdateAsync(TItem item)
+        public virtual async Task<HermesResult> UpdateAsync(TItem item)
         {
             return await _store.UpdateAsync(item, CancellationToken);
         }
 
-        public async Task<HermesResult> DeleteAsync(TItem item)
+        public virtual async Task<HermesResult> DeleteAsync(TItem item)
         {
             return await _store.DeleteAsync(item, CancellationToken);
         }
 
-        public async Task<HermesResult> DeleteByIdAsync(TKey id)
+        public virtual async Task<HermesResult> DeleteByIdAsync(TKey id)
         {
             var item = await FindByIdAsync(id);
             return await _store.DeleteAsync(item, CancellationToken);
