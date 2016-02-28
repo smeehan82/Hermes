@@ -12,6 +12,7 @@ namespace Hermes.Content.Blogs
         public DateTimeOffset DateModified { get; set; }
         public DateTimeOffset DatePublished { get; set; }
         public Guid Id { get; set; }
+        public string ConcurrencyStamp { get; set; }
         public string Slug { get; set; }
         public string Title { get; set; }
 
