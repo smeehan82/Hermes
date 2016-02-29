@@ -25,6 +25,7 @@ namespace Hermes.DataAccess
 
             if (result.Succeeded)
             {
+                item.Slug = await GenerateNewSlug(item.Title);
                 return await base.AddAsync(item);
             }
 
