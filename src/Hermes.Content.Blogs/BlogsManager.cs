@@ -31,14 +31,30 @@ namespace Hermes.Content.Blogs
 
         #region BlogPost CRUD Operations
 
-        public virtual async Task<HermesResult> AddPostAsync(BlogPost blogPost, Blog blog)
+        public virtual async Task<HermesResult> AddPostAsync(BlogPost blogPost)
         {
             var result = DoesTitleExist(blogPost.Title);
+
             if (result.Succeeded)
             {
-                blogPost.Blog = blog;
-                blogPost.BlogId = blog.Id;
-                return await _blogPostsStore.AddAsync(blogPost, CancellationToken);
+                var blogResult = DoesBlogExist(blogPost);
+
+                if (blogResult.Succeeded)
+                {
+                    if (blogPost.Blog != null && blogPost.BlogId == null)
+                    {
+                        blogPost.BlogId = blogPost.Blog.Id;
+                    }
+                    else if (blogPost.Blog == null && blogPost.BlogId != null)
+                    {
+                        var blog = await _store.FindByIdAsync(blogPost.Blog.Id, CancellationToken);
+                        blogPost.Blog = blog;                        
+                    }
+
+                    return await _blogPostsStore.AddAsync(blogPost, CancellationToken);
+                }
+
+                return blogResult;
             }
 
             return result;
@@ -75,6 +91,23 @@ namespace Hermes.Content.Blogs
         {
             var blogPost = await FindPostByIdAsync(id);
             return await _blogPostsStore.DeleteAsync(blogPost, CancellationToken);
+        }
+
+        #endregion
+
+        //**********Helper Methods**********//
+        //**********************************//
+        //**********************************//
+        #region DoesBlogExist
+
+        private HermesResult DoesBlogExist(BlogPost blogPost)
+        {
+            if (blogPost.Blog == null && blogPost.BlogId == null)
+            {
+                return HermesResult.Failed(ErrorDescriber.BlogPostDoesNotHaveBlog());
+            }
+
+            return HermesResult.Success;
         }
 
         #endregion
