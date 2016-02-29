@@ -34,7 +34,13 @@ namespace Hermes
             };
         }
 
-        //Titles Not present
-
+        public virtual HermesError BlogPostDoesNotHaveBlog()
+        {
+            return new HermesError
+            {
+                Code = nameof(BlogPostDoesNotHaveBlog),
+                Description = "The blog post must be assigned to a blog."
+            };
+        }
     }
 }
