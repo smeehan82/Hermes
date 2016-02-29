@@ -24,7 +24,7 @@ namespace Hermes.Web.Controllers
 
         #endregion
 
-        //GET
+        //GET Blogs
         #region list
 
         [HttpGet]
@@ -37,7 +37,7 @@ namespace Hermes.Web.Controllers
 
         #endregion
 
-        //GET
+        //GET Blog
         #region single by id
 
         [HttpGet]
@@ -50,7 +50,7 @@ namespace Hermes.Web.Controllers
 
         #endregion
 
-        //GET
+        //GET Blog
         #region single by slug
 
         [HttpGet]
@@ -63,23 +63,66 @@ namespace Hermes.Web.Controllers
 
         #endregion
 
-        //POST
+        //POST Blog
         #region add
         
         [HttpPost]
         [Route("add")]
-        public async Task<IActionResult> Put(string title, string slug)
+        public async Task<IActionResult> Put(string title)
         {
             var blog = new Blog();
 
-            blog.Id = new Guid();
             blog.Title = title;
-            blog.Slug = slug;
-            blog.DateCreated = DateTimeOffset.Now;
-            blog.DateModified = DateTimeOffset.Now;
-            blog.DatePublished = DateTimeOffset.Now;
 
             await _blogsManager.AddAsync(blog);
+            return new ObjectResult(true);
+        }
+
+        #endregion
+
+        //GET BlogPosts
+        #region list
+
+        [HttpGet]
+        [Route("list/posts")]
+        public async Task<IActionResult> GetPosts(string slug)
+        {
+            var blog = await _blogsManager.FindBySlugAsync(slug);
+            var posts = _blogsManager.BlogPosts.Where(bp => bp.Blog.Equals(blog));
+            return new ObjectResult(posts);
+        }
+
+        #endregion
+
+        //GET BlogPost
+        #region single by slug
+
+        [HttpGet]
+        [Route("single/post")]
+        public async Task<IActionResult> GetPost(string slug)
+        {
+            var blogPost = await _blogsManager.FindPostBySlugAsync(slug);
+            return new ObjectResult(blogPost);
+        }
+
+        #endregion
+
+        //POST BlogPost
+        #region add
+
+        [HttpPost]
+        [Route("add/post")]
+        public async Task<IActionResult> PutPost(string title, string blogSlug)
+        {
+            var blog = await _blogsManager.FindBySlugAsync(blogSlug);
+            var blogPost = new BlogPost();
+
+            blogPost.Blog = blog;
+            blogPost.BlogId = blog.Id;
+            blogPost.Content = "";
+            blogPost.Title = title;
+
+            await _blogsManager.AddPostAsync(blogPost);
             return new ObjectResult(true);
         }
 
