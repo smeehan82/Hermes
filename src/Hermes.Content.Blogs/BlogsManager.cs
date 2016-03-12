@@ -9,6 +9,12 @@ using Microsoft.Data.Entity;
 
 namespace Hermes.Content.Blogs
 {
+    public interface IBlogsManager : IContentManager<Blog, Guid>
+    {
+        IQueryable<Blog> Blogs { get; }
+        IQueryable<BlogPost> BlogPosts { get; }
+    }
+
     public class BlogsManager : ContentManager<Blog, Guid>, IBlogsManager
     {
         #region Constructor
