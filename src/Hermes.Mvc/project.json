@@ -1,0 +1,19 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Hermes.Mvc Class Library",
+  "authors": [ "smeeh_000" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Hermes": "1.0.0-*",
+    "Microsoft.AspNet.Mvc": "6.0.0-rc1-final",
+    "Microsoft.Extensions.Logging": "1.0.0-rc1-final"
+  },
+
+  "frameworks": {
+    "dnx46": {
+    }
+  }
+}
