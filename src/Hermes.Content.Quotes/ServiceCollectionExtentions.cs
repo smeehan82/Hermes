@@ -12,7 +12,7 @@ namespace Hermes.Content.Quotes
         public static void AddQuotes(this IServiceCollection services, DataContextBuilder dataContextBuilder)
         {
             services.AddScoped<IQuoteStore, QuoteStore>();
-            services.AddScoped<QuotesManager, QuotesManager>();
+            services.AddScoped<QuoteManager, QuoteManager>();
 
             dataContextBuilder.RegisterModel<Quote>();
         }

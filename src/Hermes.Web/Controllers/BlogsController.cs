@@ -13,10 +13,10 @@ namespace Hermes.Web.Controllers
     {
         #region Contructor
 
-        private BlogsManager _blogsManager;
+        private BlogManager _blogsManager;
         private ILogger _logger;
 
-        public BlogsController(BlogsManager blogsManager, ILoggerFactory loggerFactory)
+        public BlogsController(BlogManager blogsManager, ILoggerFactory loggerFactory)
         {
             _blogsManager = blogsManager;
             _logger = loggerFactory.CreateLogger<BlogsController>();
