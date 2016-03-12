@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.Taxonomy.Tags
 {
-    public class Tag : ITaxonomy
+    public class Tag : ITaxonomy, IPersistentItem
     {
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset DateModified { get; set; }
