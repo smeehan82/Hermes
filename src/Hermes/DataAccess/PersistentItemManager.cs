@@ -60,4 +60,11 @@ namespace Hermes.DataAccess
 
         #endregion
     }
+
+    public abstract class PersistentItemManager<TItem> : PersistentItemManager<TItem, Guid>
+        where TItem : class, IPersistentItem<Guid>
+    {
+        public PersistentItemManager(IPersisteneItemStore<TItem, Guid> store, IHttpContextAccessor contextAccessor) 
+            : base(store, contextAccessor) { }
+    }
 }
