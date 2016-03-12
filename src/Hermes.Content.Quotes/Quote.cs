@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.Content.Quotes
 {
-    public class Quote : IContent
+    public class Quote : IContent, IPersistentItem
     {
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset DateModified { get; set; }
@@ -18,8 +18,8 @@ namespace Hermes.Content.Quotes
         public string Slug { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
-        public IEnumerable<string> Sources { get; set; }
-        public IEnumerable<string> Speakers { get; set; }
+        //public IEnumerable<string> Sources { get; set; }
+        //public IEnumerable<string> Speakers { get; set; }
         //Guid IPersistentItem<Guid>.Id { get; set; }
     }
 }

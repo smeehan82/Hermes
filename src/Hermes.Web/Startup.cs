@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Hermes.Content.Blogs;
+using Hermes.Pages;
 using Hermes.DataAccess;
 using Newtonsoft.Json.Serialization;
 using Hermes.Content.Quotes;
@@ -36,6 +37,7 @@ namespace Hermes.Web
             //add supplimental content packages here
             services.AddBlogs(dataContextBuilder);
             services.AddQuotes(dataContextBuilder);
+            services.AddPages(dataContextBuilder);
 
             services.AddInstance(dataContextBuilder);
             services.AddHermesDataContext(Configuration.GetSection("DataAccess"));

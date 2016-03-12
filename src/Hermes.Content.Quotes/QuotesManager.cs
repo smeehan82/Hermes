@@ -8,19 +8,24 @@ using Microsoft.AspNet.Http;
 
 namespace Hermes.Content.Quotes
 {
-    public class QuotesManager : ContentManager<Quote, Guid>
+    public interface IQuoteManager : IContentManager<Quote, Guid>
+    {
+        IQueryable<Quote> Quote { get; }
+    }
+
+    public class QuoteManager : ContentManager<Quote, Guid>, IQuoteManager
     {
         #region Constructor
 
         private ILogger _logger;
 
-        public QuotesManager(IQuoteStore store, IHttpContextAccessor contextAccessor, ILoggerFactory loggerFactory) : base(store, contextAccessor)
+        public QuoteManager(IQuoteStore store, IHttpContextAccessor contextAccessor, ILoggerFactory loggerFactory) : base(store, contextAccessor)
         {
-            _logger = loggerFactory.CreateLogger<QuotesManager>();
+            _logger = loggerFactory.CreateLogger<QuoteManager>();
         }
 
         #endregion
 
-        public IQueryable<Quote> Quotes { get { return _store.Items; } }
+        public IQueryable<Quote> Quote { get { return _store.Items; } }
     }
 }

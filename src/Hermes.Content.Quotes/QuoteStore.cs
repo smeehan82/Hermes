@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Hermes.Content.Quotes
 {
+    public interface IQuoteStore : IContentStore<Quote, Guid>
+    {
+        IQueryable<Quote> Quotes { get; }
+    }
+
     public class QuoteStore : ContentStore<Quote>, IQuoteStore
     {
         #region Contructor

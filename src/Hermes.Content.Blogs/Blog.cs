@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.Content.Blogs
 {
-    public class Blog : IContent
+    public class Blog : IContent, IPersistentItem
     {
         public DateTimeOffset DateCreated { get; set; }
         public DateTimeOffset DateModified { get; set; }
