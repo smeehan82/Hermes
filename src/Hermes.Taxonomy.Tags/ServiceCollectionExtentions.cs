@@ -13,7 +13,7 @@ namespace Hermes.Taxonomy.Tags
         {
             services.AddScoped<TagStore, TagStore>();
 
-            dataContextBuilder.RegisterTaxonomyModel<Tag>();
+            dataContextBuilder.RegisterModel<Tag>();
         }
     }
 }
