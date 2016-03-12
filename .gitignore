@@ -198,3 +198,9 @@ FakesAssemblies/
 
 #Migrations folders
 [Mm]igrations/
+src/Hermes.Content.Blogs/project.lock.json
+src/Hermes.Content.Quotes/project.lock.json
+src/Hermes.Taxonomy.Categories/project.lock.json
+src/Hermes.Taxonomy.Tags/project.lock.json
+src/Hermes.Web/project.lock.json
+src/Hermes/project.lock.json

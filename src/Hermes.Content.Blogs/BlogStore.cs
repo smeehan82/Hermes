@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Hermes.Content.Blogs
 {
+    public interface IBlogStore : IContentStore<Blog, Guid>
+    {
+        IQueryable<Blog> Blogs { get; }
+    }
+
     public class BlogStore : ContentStore<Blog>, IBlogStore
     {
         #region Contructor

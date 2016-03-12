@@ -9,7 +9,13 @@ using Microsoft.Data.Entity;
 
 namespace Hermes.Content.Blogs
 {
-    public class BlogsManager : ContentManager<Blog, Guid>, IBlogsManager
+    public interface IBlogManager : IContentManager<Blog, Guid>
+    {
+        IQueryable<Blog> Blogs { get; }
+        IQueryable<BlogPost> BlogPosts { get; }
+    }
+
+    public class BlogManager : ContentManager<Blog, Guid>, IBlogManager
     {
         #region Constructor
 
@@ -17,11 +23,11 @@ namespace Hermes.Content.Blogs
         private IBlogPostStore _blogPostsStore;
         private ILogger _logger;
 
-        public BlogsManager(IBlogStore store, IHttpContextAccessor contextAccessor, ILoggerFactory loggerFactory, IBlogPostStore blogPostsStore)
+        public BlogManager(IBlogStore store, IHttpContextAccessor contextAccessor, ILoggerFactory loggerFactory, IBlogPostStore blogPostsStore)
             : base(store, contextAccessor)
         {
             _blogPostsStore = blogPostsStore;
-            _logger = loggerFactory.CreateLogger<BlogsManager>();
+            _logger = loggerFactory.CreateLogger<BlogManager>();
         }
 
         #endregion

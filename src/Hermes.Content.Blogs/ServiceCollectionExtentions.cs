@@ -13,7 +13,7 @@ namespace Hermes.Content.Blogs
         {
             services.AddScoped<IBlogStore, BlogStore>();
             services.AddScoped<IBlogPostStore, BlogPostStore>();
-            services.AddScoped<BlogsManager, BlogsManager>();
+            services.AddScoped<BlogManager, BlogManager>();
 
             dataContextBuilder.RegisterModel<Blog>();
             dataContextBuilder.RegisterModel<BlogPost>();

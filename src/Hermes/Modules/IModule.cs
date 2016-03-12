@@ -11,6 +11,8 @@ namespace Hermes.Modules
         string Name { get; }
         string Version { get; }
         string Description { get; }
+        bool IsActive { get; set; }
+        bool IsInstalled { get; set; }
 
         Task ActivateAsync();
         Task DeactivateAsync();

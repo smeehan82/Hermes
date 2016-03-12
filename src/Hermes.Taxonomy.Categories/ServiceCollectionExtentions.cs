@@ -13,7 +13,7 @@ namespace Hermes.Taxonomy.Categories
         {
             services.AddScoped<CategoryStore, CategoryStore>();
 
-            dataContextBuilder.RegisterTaxonomyModel<Category>();
+            dataContextBuilder.RegisterModel<Category>();
         }
     }
 }
