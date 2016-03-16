@@ -34,6 +34,15 @@ namespace Hermes
             };
         }
 
+        public virtual HermesError NameNotSet()
+        {
+            return new HermesError
+            {
+                Code = nameof(NameNotSet),
+                Description = "The name is not set."
+            };
+        }
+
         public virtual HermesError BlogPostDoesNotHaveBlog()
         {
             return new HermesError
