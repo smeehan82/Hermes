@@ -5,116 +5,59 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
 using Hermes.Content.Blogs;
+using Hermes.Mvc;
 
 namespace Hermes.Web.Controllers
 {
     [Route("api/blogs")]
-    public class BlogsController : Controller
+    public class BlogController : ContentController<Blog, Guid>
     {
         #region Contructor
 
-        private BlogManager _blogsManager;
-        private ILogger _logger;
-
-        public BlogsController(BlogManager blogsManager, ILoggerFactory loggerFactory)
+        public BlogController(BlogManager manager) : base(manager)
         {
-            _blogsManager = blogsManager;
-            _logger = loggerFactory.CreateLogger<BlogsController>();
+            _manager = manager;
         }
+
+        new protected BlogManager _manager;
 
         #endregion
 
-        //GET Blogs
-        #region list
+        //POST
+        #region create
 
-        [HttpGet]
-        [Route("list")]
-        public async Task<IActionResult> Get()
-        {
-            var blogs = _blogsManager.Blogs;
-            return new ObjectResult(blogs);
-        }
-
-        #endregion
-
-        //GET Blog
-        #region single by id
-
-        [HttpGet]
-        [Route("single")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            var blog = await _blogsManager.FindByIdAsync(id);
-            return new ObjectResult(blog);
-        }
-
-        #endregion
-
-        //GET Blog
-        #region single by slug
-
-        [HttpGet]
-        [Route("single")]
-        public async Task<IActionResult> Get(string slug)
-        {
-            var blog = await _blogsManager.FindBySlugAsync(slug);
-            return new ObjectResult(blog);
-        }
-
-        #endregion
-
-        //POST Blog
-        #region add
-        
         [HttpPost]
-        [Route("add")]
-        public async Task<IActionResult> Put(string title)
+        [Route("create-title")]
+        public virtual async Task<IActionResult> Create([FromQuery]string title)
         {
             var blog = new Blog();
 
             blog.Title = title;
+            blog.DateCreated = DateTimeOffset.Now;
+            blog.DateModified = DateTimeOffset.Now;
+            blog.DatePublished = DateTimeOffset.Now;
 
-            await _blogsManager.AddAsync(blog);
-            return new ObjectResult(true);
-        }
-
-        #endregion
-
-        //GET BlogPosts
-        #region list
-
-        [HttpGet]
-        [Route("list/posts")]
-        public async Task<IActionResult> GetPosts(string slug)
-        {
-            var blog = await _blogsManager.FindBySlugAsync(slug);
-            var posts = _blogsManager.BlogPosts.Where(bp => bp.Blog.Equals(blog));
-            return new ObjectResult(posts);
-        }
-
-        #endregion
-
-        //GET BlogPost
-        #region single by slug
-
-        [HttpGet]
-        [Route("single/post")]
-        public async Task<IActionResult> GetPost(string slug)
-        {
-            var blogPost = await _blogsManager.FindPostBySlugAsync(slug);
-            return new ObjectResult(blogPost);
+            var result = await _manager.AddAsync(blog);
+            if (result.Succeeded)
+            {
+                return new ObjectResult(true);
+            }
+            else
+            {
+                return new ObjectResult(false);
+            }
         }
 
         #endregion
 
         //POST BlogPost
-        #region add
+        #region create post by title
 
         [HttpPost]
-        [Route("add/post")]
-        public async Task<IActionResult> PutPost(string title, string blogSlug)
+        [Route("post/create-title")]
+        public virtual async Task<IActionResult> CreatePost(string blogSlug, string title)
         {
-            var blog = await _blogsManager.FindBySlugAsync(blogSlug);
+            var blog = await _manager.FindBySlugAsync(blogSlug);
             var blogPost = new BlogPost();
 
             blogPost.Blog = blog;
@@ -122,8 +65,116 @@ namespace Hermes.Web.Controllers
             blogPost.Content = "";
             blogPost.Title = title;
 
-            await _blogsManager.AddPostAsync(blogPost);
-            return new ObjectResult(true);
+            var result = await _manager.AddPostAsync(blogPost);
+
+            if (result.Succeeded)
+            {
+                return new ObjectResult(true);
+            }
+            else
+            {
+                return new ObjectResult(false);
+            }
+
+        }
+
+        #endregion
+
+        //GET BlogPost
+        #region read post list
+
+        [HttpGet]
+        [Route("posts")]
+        public virtual async Task<IActionResult> ListPosts()
+        {
+            var blogPosts = _manager.BlogPosts;
+            return new ObjectResult(blogPosts);
+        }
+
+        #endregion
+
+        //GET
+        #region read post single by slug
+
+        [HttpGet]
+        [Route("single")]
+        public virtual async Task<IActionResult> FindPostBySlug([FromQuery]string slug)
+        {
+            var blogPost = await _manager.FindPostBySlugAsync(slug);
+            return new ObjectResult(blogPost);
+        }
+
+        #endregion
+
+        //GET BlogPost
+        #region read post single by id
+
+        [HttpGet]
+        [Route("post/single-id")]
+        public virtual async Task<IActionResult> FindPostById(Guid id)
+        {
+            var blogPost = await _manager.FindPostByIdAsync(id);
+            return new ObjectResult(blogPost);
+        }
+
+        #endregion
+
+        //POST BlogPost
+        #region update post
+
+        [HttpPost]
+        [Route("post/update")]
+        public virtual async Task<IActionResult> UpdatePost(BlogPost blogPost)
+        {
+            var result = await _manager.UpdatePostAsync(blogPost);
+            if (result.Succeeded)
+            {
+                return new ObjectResult(true);
+            }
+            else
+            {
+                return new ObjectResult(false);
+            }
+        }
+
+        #endregion
+
+        //POST BlogPost
+        #region delete post
+
+        [HttpPost]
+        [Route("post/delete")]
+        public virtual async Task<IActionResult> DeletePost(BlogPost blogPost)
+        {
+            var result = await _manager.DeletePostAsync(blogPost);
+            if (result.Succeeded)
+            {
+                return new ObjectResult(true);
+            }
+            else
+            {
+                return new ObjectResult(false);
+            }
+        }
+
+        #endregion
+
+        //POST BlogPost
+        #region delete post by id
+
+        [HttpPost]
+        [Route("post/delete-id")]
+        public virtual async Task<IActionResult> DeletePostById([FromQuery]Guid id)
+        {
+            var result = await _manager.DeletePostByIdAsync(id);
+            if (result.Succeeded)
+            {
+                return new ObjectResult(true);
+            }
+            else
+            {
+                return new ObjectResult(false);
+            }
         }
 
         #endregion
