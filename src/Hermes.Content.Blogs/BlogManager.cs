@@ -15,7 +15,7 @@ namespace Hermes.Content.Blogs
         IQueryable<BlogPost> BlogPosts { get; }
     }
 
-    public class BlogManager : ContentManager<Blog, Guid>, IBlogManager
+    public class BlogManager : ContentManager<Blog, Guid>, IPersistentItemManager<Blog, Guid>, IBlogManager
     {
         #region Constructor
 
@@ -56,6 +56,8 @@ namespace Hermes.Content.Blogs
                         var blog = await _store.FindByIdAsync(blogPost.Blog.Id, CancellationToken);
                         blogPost.Blog = blog;                        
                     }
+
+                    blogPost.Slug = await GenerateNewSlugAsync(blogPost.Title);
 
                     return await _blogPostsStore.AddAsync(blogPost, CancellationToken);
                 }
