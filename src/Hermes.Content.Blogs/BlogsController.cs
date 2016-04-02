@@ -4,10 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Mvc;
 using Microsoft.Extensions.Logging;
-using Hermes.Content.Blogs;
 using Hermes.Mvc;
 
-namespace Hermes.Web.Controllers
+namespace Hermes.Content.Blogs
 {
     [Route("api/blogs")]
     public class BlogController : ContentController<Blog, Guid>

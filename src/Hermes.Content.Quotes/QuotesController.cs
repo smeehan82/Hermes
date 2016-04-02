@@ -1,5 +1,4 @@
-﻿using Hermes.Content.Quotes;
-using Hermes.DataAccess;
+﻿using Hermes.DataAccess;
 using Hermes.Mvc;
 using Microsoft.AspNet.Mvc;
 using System;
@@ -7,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Hermes.Web.Controllers
+namespace Hermes.Content.Quotes
 {
     [Route("api/quotes")]
     public class QuoteController : ContentController<Quote, Guid>
