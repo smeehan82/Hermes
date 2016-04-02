@@ -13,7 +13,7 @@ namespace Hermes.Content.Quotes
         IQueryable<Quote> Quote { get; }
     }
 
-    public class QuoteManager : ContentManager<Quote, Guid>, IQuoteManager
+    public class QuoteManager : ContentManager<Quote, Guid>, IPersistentItemManager<Quote, Guid>, IQuoteManager
     {
         #region Constructor
 

@@ -54,9 +54,9 @@ namespace Hermes.DataAccess
         //**********Helper Methods**********//
         //**********************************//
         //**********************************//
-        #region GenerateNewSlug
+        #region GenerateNewSlugAsync
 
-        public virtual Task<string> GenerateNewSlug(string source)
+        public virtual Task<string> GenerateNewSlugAsync(string source)
         {
             //@TODO make it international friendly and cleanup the regex and remove small words
             var slug = Regex.Replace(source, @"\s+", "-");
@@ -67,7 +67,7 @@ namespace Hermes.DataAccess
 
         #region NormalizeSlug
 
-        public virtual Task<string> NormalizeSlug(string source)
+        public virtual Task<string> NormalizeSlugAsync(string source)
         {
             return Task.FromResult(source.Normalize().ToLowerInvariant());
         }

@@ -6,6 +6,7 @@ using Microsoft.Data.Entity;
 using Microsoft.Extensions.Logging;
 using Hermes.DataAnnotations;
 using System.Threading;
+using Microsoft.Data.Entity.Infrastructure;
 
 namespace Hermes.DataAccess
 {
@@ -16,7 +17,7 @@ namespace Hermes.DataAccess
         private DataContextBuilder _dataContextBuilder;
         private ILogger _logger;
 
-        public DataContext(DataContextBuilder dataContextBuilder, ILoggerFactory loggerFactory)
+        public DataContext(DataContextBuilder dataContextBuilder, ILoggerFactory loggerFactory, DbContextOptions options) : base (options)
         {
             _dataContextBuilder = dataContextBuilder;
             _logger = loggerFactory.CreateLogger<DataContext>();

@@ -11,7 +11,7 @@ namespace Hermes.DataAccess
     {
         Task<TTaxonomy> FindBySlugAsync(string slug);
 
-        Task<string> GenerateNewSlug(string source);
-        Task<string> NormalizeSlug(string source);
+        Task<string> GenerateNewSlugAsync(string source);
+        Task<string> NormalizeSlugAsync(string source);
     }
 }
