@@ -8,7 +8,7 @@ using Hermes.Mvc;
 
 namespace Hermes.Content.Blogs
 {
-    [Route("api/blogs")]
+    [Route("api/content/blogs")]
     public class BlogController : ContentController<Blog, Guid>
     {
         #region Contructor
