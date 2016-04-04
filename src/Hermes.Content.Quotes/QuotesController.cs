@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hermes.Content.Quotes
 {
-    [Route("api/quotes")]
+    [Route("api/content/quotes")]
     public class QuoteController : ContentController<Quote, Guid>
     {
         #region Contructor
